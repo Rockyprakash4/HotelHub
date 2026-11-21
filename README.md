@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # HotelHub
 
 A full-stack hotel listing and management application built using React, Redux, Node.js, Express, and PostgreSQL.
