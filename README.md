@@ -33,8 +33,8 @@ A full-stack hotel listing and management application built using React, Redux, 
 
 ## Project Structure
 
-- frontend – React application
-- backend – Express REST API
+- frontend â€“ React application
+- backend â€“ Express REST API
 
 ## API Endpoints
 
@@ -45,9 +45,5 @@ A full-stack hotel listing and management application built using React, Redux, 
 | PUT | /api/hotels/:id | Update hotel |
 | DELETE | /api/hotels/:id | Delete hotel |
 
-## Author
-
-Ram Prakash
-=======
 # HotelHub
 >>>>>>> d94c9e69c292266088d4e1260b739e71f58eb696
