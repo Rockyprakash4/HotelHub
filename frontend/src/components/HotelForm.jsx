@@ -1,153 +1,92 @@
+import { useState } from "react";
 
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
-function HotelForm({ initialHotel = null, onSubmit }) {
-  const navigate = useNavigate();
-
-  const [hotelName, setHotelName] = useState(initialHotel?.name || "");
-  const [description, setDescription] = useState(initialHotel?.description || "");
-  const [price, setPrice] = useState(initialHotel?.price || "");
-  const [latitude, setLatitude] = useState(initialHotel?.latitude || "");
-  const [longitude, setLongitude] = useState(initialHotel?.longitude || "");
+// props:
+//   initialData = hotel to edit (or empty object when adding)
+//   onSubmit    = function that receives the form data
+//   buttonText  = "Add Hotel" or "Update Hotel"
+function HotelForm({ initialData, onSubmit, buttonText }) {
+  const [title, setTitle] = useState(initialData.title || "");
+  const [description, setDescription] = useState(initialData.description || "");
+  const [latitude, setLatitude] = useState(initialData.latitude || "");
+  const [longitude, setLongitude] = useState(initialData.longitude || "");
+  const [price, setPrice] = useState(initialData.price || "");
   const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(initialData.imageUrl || "");
+  const [errors, setErrors] = useState({});
 
-  const [imagePreview, setImagePreview] = useState(
-    initialHotel?.image || ""
-  );
-
-  useEffect(() => {
-    if (!image) {
-      return;
+  // show preview when a file is chosen
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
     }
+  };
 
-    const imageUrl = URL.createObjectURL(image);
-    setImagePreview(imageUrl);
-
-    return () => URL.revokeObjectURL(imageUrl);
-  }, [image]);
+  // check all fields, return an object of error messages
+  const validate = () => {
+    const err = {};
+    if (title.trim().length < 3) err.title = "Title must be at least 3 characters";
+    if (description.trim().length < 10) err.description = "Description must be at least 10 characters";
+    if (latitude === "" || latitude < -90 || latitude > 90) err.latitude = "Latitude must be between -90 and 90";
+    if (longitude === "" || longitude < -180 || longitude > 180) err.longitude = "Longitude must be between -180 and 180";
+    if (price === "" || Number(price) <= 0) err.price = "Price must be greater than 0";
+    if (!image && !preview) err.image = "Please choose an image";
+    return err;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const err = validate();
+    setErrors(err);
+    if (Object.keys(err).length > 0) return; // stop if errors
 
-    const hotelData = {
-      name: hotelName,
-      description: description,
-      price: Number(price),
-      latitude: latitude === "" ? null : Number(latitude),
-      longitude: longitude === "" ? null : Number(longitude),
-      image: image,
-    };
+    // FormData is needed to send a file
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("latitude", latitude);
+    formData.append("longitude", longitude);
+    formData.append("price", price);
+    if (image) formData.append("image", image);
 
-    if (onSubmit) {
-      onSubmit(hotelData);
-    } else {
-      alert("Hotel form submitted successfully!");
-      console.log(hotelData);
-    }
-  };
-
-  const handleCancel = () => {
-    navigate("/");
+    onSubmit(formData);
   };
 
   return (
-    <div className="hotel-form-page">
-      <div className="hotel-form-container">
-        <h1>{initialHotel ? "Edit Hotel" : "Add New Hotel"}</h1>
+    <form className="form" onSubmit={handleSubmit}>
+      <label>Image</label>
+      <input type="file" accept="image/*" onChange={handleImage} />
+      {preview && <img src={preview} alt="Hotel preview" className="preview" />}
+      {errors.image && <p className="error">{errors.image}</p>}
 
-        <p>Enter the details of your hotel below.</p>
+      <label>Title</label>
+      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+      {errors.title && <p className="error">{errors.title}</p>}
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Hotel Name</label>
+      <label>Description</label>
+      <textarea rows="4" value={description} onChange={(e) => setDescription(e.target.value)} />
+      {errors.description && <p className="error">{errors.description}</p>}
 
-            <input
-              type="text"
-              placeholder="Enter hotel name"
-              value={hotelName}
-              onChange={(e) => setHotelName(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Description</label>
-
-            <textarea
-              placeholder="Enter hotel description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows="4"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Price Per Night</label>
-
-            <input
-              type="number"
-              placeholder="Enter price"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              min="1"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Hotel Image</label>
-
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setImage(e.target.files[0])}
-            />
-
-            {imagePreview && (
-              <div className="image-preview">
-                <img src={imagePreview} alt="Hotel preview" />
-              </div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label>Latitude</label>
-
-            <input
-              type="number"
-              step="any"
-              placeholder="Enter latitude"
-              value={latitude}
-              onChange={(e) => setLatitude(e.target.value)}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Longitude</label>
-
-            <input
-              type="number"
-              step="any"
-              placeholder="Enter longitude"
-              value={longitude}
-              onChange={(e) => setLongitude(e.target.value)}
-            />
-          </div>
-
-          <div className="form-buttons">
-            <button type="submit">
-              {initialHotel ? "Update Hotel" : "Save Hotel"}
-            </button>
-
-            <button type="button" onClick={handleCancel}>
-              Cancel
-            </button>
-          </div>
-        </form>
+      <div className="row">
+        <div>
+          <label>Latitude</label>
+          <input type="number" step="any" value={latitude} onChange={(e) => setLatitude(e.target.value)} />
+          {errors.latitude && <p className="error">{errors.latitude}</p>}
+        </div>
+        <div>
+          <label>Longitude</label>
+          <input type="number" step="any" value={longitude} onChange={(e) => setLongitude(e.target.value)} />
+          {errors.longitude && <p className="error">{errors.longitude}</p>}
+        </div>
       </div>
-    </div>
+
+      <label>Price (₹)</label>
+      <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+      {errors.price && <p className="error">{errors.price}</p>}
+
+      <button type="submit" className="btn">{buttonText}</button>
+    </form>
   );
 }
 

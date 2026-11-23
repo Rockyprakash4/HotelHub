@@ -1,25 +1,36 @@
 
-import { Link } from "react-router-dom";
-import { Hotel } from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
     <nav className="navbar">
-      <div className="navbar-container">
+      <div className="navbar-inner">
 
-        <Link to="/" className="navbar-logo">
-          <Hotel size={28} />
-          <span>HotelHub</span>
+        {/* HotelHub Logo */}
+        <Link to="/" className="logo">
+          🏨 Hotel<span>Hub</span>
         </Link>
 
-        <div className="navbar-links">
-          <Link to="/">Home</Link>
-          <a href="#hotels">Hotels</a>
+        {/* Navigation Links */}
+        <div className="nav-links">
+
+          <NavLink to="/" className="nav-link">
+            Home
+          </NavLink>
+
+          <NavLink to="/add" className="nav-link">
+            Add Hotel
+          </NavLink>
+
+          <NavLink to="/login" className="nav-link">
+            Login
+          </NavLink>
+
+          <Link to="/register" className="btn nav-btn">
+            Register
+          </Link>
+
         </div>
-
-        <Link to="/" className="add-button">
-          Add Hotel
-        </Link>
 
       </div>
     </nav>
@@ -27,4 +38,5 @@ function Navbar() {
 }
 
 export default Navbar;
+
 
