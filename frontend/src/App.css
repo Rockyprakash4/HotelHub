@@ -337,3 +337,256 @@ img { max-width: 100%; }
   }
 }
 
+/* ---------- Home page improvements ---------- */
+
+.home-page {
+  width: 100%;
+}
+
+/* Filter section */
+.filter-section {
+  background: #ffffff;
+  padding: 22px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.filter-section h2,
+.hotel-list-section h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 22px;
+  color: #1e293b;
+}
+
+.filter-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filter-controls input,
+.filter-controls select {
+  padding: 11px 12px;
+  border: 1px solid #cfd6e2;
+  border-radius: 7px;
+  font-size: 14px;
+  min-width: 150px;
+  background: #ffffff;
+}
+
+.filter-controls input:focus,
+.filter-controls select:focus {
+  outline: 2px solid #9cc7ff;
+  border-color: var(--blue);
+}
+
+.filter-controls button,
+.hero-search button {
+  background: var(--blue);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.filter-controls button:hover,
+.hero-search button:hover {
+  background: var(--dark);
+}
+
+/* Hotel listing */
+.hotel-list-section {
+  margin-top: 25px;
+}
+
+.hotel-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+/* Hotel card improvements */
+.hotel-row {
+  width: 100%;
+  min-width: 0;
+}
+
+.hotel-info {
+  min-width: 0;
+}
+
+.hotel-desc {
+  overflow-wrap: anywhere;
+}
+
+.hotel-price-box .btn {
+  white-space: nowrap;
+}
+
+/* Loading and empty messages */
+.hotel-list-section > p {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  color: #555;
+  border: 1px solid var(--border);
+}
+
+/* Mobile responsive design */
+@media (max-width: 600px) {
+  .container {
+    padding: 16px 12px 35px;
+  }
+
+  .hero {
+    padding: 28px 18px;
+  }
+
+  .hero h1 {
+    font-size: 25px;
+  }
+
+  .hero-search {
+    flex-direction: column;
+  }
+
+  .hero-search button {
+    width: 100%;
+  }
+
+  .filter-section {
+    padding: 16px;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-controls input,
+  .filter-controls select,
+  .filter-controls button {
+    width: 100%;
+  }
+
+  .hotel-row {
+    padding: 12px;
+  }
+
+  .actions {
+    flex-wrap: wrap;
+  }
+
+  .hotel-price-box {
+    min-width: 0;
+  }
+}
+
+
+/* ---------- Improved Hotel Form ---------- */
+
+.form {
+  width: 100%;
+  max-width: 700px;
+  margin: 25px auto;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(0, 30, 80, 0.08);
+}
+
+.form label {
+  display: block;
+  color: #1e293b;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 12px;
+  margin-bottom: 5px;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  transition: 0.2s;
+}
+
+.form input:focus,
+.form textarea:focus {
+  outline: 2px solid #bfdbfe;
+  border-color: var(--blue);
+}
+
+.form textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.form input[type="file"] {
+  background: #f8fbff;
+  border: 2px dashed #93c5fd;
+  padding: 18px;
+  cursor: pointer;
+}
+
+.form .preview {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: 200px;
+  object-fit: cover;
+  margin-top: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.form .row {
+  display: flex;
+  gap: 16px;
+}
+
+.form .row > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.form .error {
+  color: #dc2626;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.form button[type="submit"] {
+  margin-top: 22px;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+  .form {
+    padding: 20px 15px;
+  }
+
+  .form .row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .form .preview {
+    max-width: 100%;
+  }
+}
+
